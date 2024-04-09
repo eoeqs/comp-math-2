@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>comp-math-2</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
+    <script src="../static/script.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="form-container">
+        <form action="/solve" method="post" id="equationForm">
+            <label for="equation_type">Choose equation type:</label>
+            <select name="equation_type" id="equation_type" onchange="toggleEquationFields()">
+                <option value="single">Single Equation</option>
+                <option value="system">System of Equations</option>
+            </select>
+            <br>
+
+            <div id="single_equation_fields">
+                <!-- Поля для одного уравнения -->
+                <label for="equation">Choose equation to solve:</label>
+                <select name="equation" id="equation">
+                    {% for key, value in equations.items() %}
+                    <option value="{{ key }}">$$ {{ value|safe }} $$</option>
+                    {% endfor %}
+                </select>
+                <br>
+
+                <label for="method_choice">Choose a method:</label>
+                <select name="method_choice" id="method_choice">
+                    <option value="bisection">Bisection Method</option>
+                    <option value="secant">Secant Method</option>
+                    <option value="newton">Newton's Method</option>
+                </select>
+                <br>
+
+                <label for="data_source">Choose data source:</label>
+                <select name="data_source" id="data_source">
+                    <option value="keyboard">Keyboard</option>
+                    <option value="file">File</option>
+                </select>
+                <br>
+
+                <div id="file_input_fields" style="display: none;">
+                    <label for="file_input">Enter file name:</label>
+                    <input type="text" name="file_input" id="file_input">
+                    <br>
+                </div>
+
+                <div id="keyboard_input_fields">
+                    <label for="lower_limit">Lower limit of the interval:</label>
+                    <input type="number" name="lower_limit" id="lower_limit" step="any">
+                    <br>
+                    <label for="upper_limit">Upper limit of the interval:</label>
+                    <input type="number" name="upper_limit" id="upper_limit" step="any">
+                    <br>
+                    <label for="initial_guess">Initial approximation to the root:</label>
+                    <input type="number" name="initial_guess" id="initial_guess" step="any">
+                    <br>
+                    <label for="epsilon">Calculation error:</label>
+                    <input type="number" name="epsilon" id="epsilon" step="any">
+                    <br>
+                </div>
+            </div>
+
+            <button type="submit">Solve Single Equation</button>
+        </form>
+
+        <form action="/solve" method="post" id="system_equations_form">
+            <label for="system_equation">Choose system of equations to solve:</label>
+            <select name="system_equation" id="system_equation">
+                <option value="system1">System 1: sin(x-y) -xy = -1, y+cos(x-2) =0</option>
+                <option value="system2">System 2: sin(x+y) -1.1x = 0.1, x^2 +y^2 =1</option>
+            </select>
+            <br>
+
+            <label for="system_initial_guess_x">Initial approximation for x:</label>
+            <input type="number" name="system_initial_guess_x" id="system_initial_guess_x" step="any">
+            <br>
+            <label for="system_initial_guess_y">Initial approximation for y:</label>
+            <input type="number" name="system_initial_guess_y" id="system_initial_guess_y" step="any">
+            <br>
+
+            <button type="submit">Solve System of Equations</button>
+        </form>
+        <div class="error-message" id="error-message"></div>
+    </div>
+    <div class="results-container" id="result-container">
+        <h1>Results</h1>
+        <p>{{ result }}</p>
+        <img src="/static/plot.png" alt="Graph of the Function">
+    </div>
+</div>
+
+
+</body>
+</html>
