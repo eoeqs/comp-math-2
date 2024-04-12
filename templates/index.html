@@ -6,27 +6,23 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/styles.css">
-    <script src="../static/script.js"></script>
+    <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
 </head>
 <body>
 <div class="container">
     <div class="form-container">
         <form action="/solve" method="post" id="equationForm">
-            <label for="equation_type">Choose equation type:</label>
-            <select name="equation_type" id="equation_type" onchange="toggleEquationFields()">
-                <option value="single">Single Equation</option>
-                <option value="system">System of Equations</option>
-            </select>
-            <br>
-
+            <input type="hidden" name="equation_type" id="equation_type" value="single">
             <div id="single_equation_fields">
-                <!-- Поля для одного уравнения -->
+
                 <label for="equation">Choose equation to solve:</label>
-                <select name="equation" id="equation">
+                <select name="equation" id="equation" onchange="updateDesmos()">
+                    <option value="" selected disabled>Choose an equation</option>
                     {% for key, value in equations.items() %}
-                    <option value="{{ key }}">$$ {{ value|safe }} $$</option>
+                    <option value="{{ key }}">{{ value }}</option>
                     {% endfor %}
                 </select>
+
                 <br>
 
                 <label for="method_choice">Choose a method:</label>
@@ -70,6 +66,7 @@
         </form>
 
         <form action="/solve" method="post" id="system_equations_form">
+
             <label for="system_equation">Choose system of equations to solve:</label>
             <select name="system_equation" id="system_equation">
                 <option value="system1">System 1: sin(x-y) -xy = -1, y+cos(x-2) =0</option>
@@ -85,16 +82,17 @@
             <br>
 
             <button type="submit">Solve System of Equations</button>
+
         </form>
         <div class="error-message" id="error-message"></div>
     </div>
     <div class="results-container" id="result-container">
         <h1>Results</h1>
         <p>{{ result }}</p>
-        <img src="/static/plot.png" alt="Graph of the Function">
+        <iframe id="desmos-iframe" src="{{ equation_url }}" width="500px" height="500px"></iframe>
     </div>
 </div>
-
+<script src="../static/script.js"></script>
 
 </body>
 </html>

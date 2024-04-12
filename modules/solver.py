@@ -1,4 +1,5 @@
 def bisection_method(equation_func, lower_limit, upper_limit, epsilon):
+    print(equation_func, lower_limit, upper_limit, epsilon)
     if equation_func(lower_limit) * equation_func(upper_limit) > 0:
         return "Error: No root found in the given interval."
 

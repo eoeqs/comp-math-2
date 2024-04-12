@@ -1,3 +1,6 @@
+import sympy as sp
+
+
 def f1(x, y):
     return x ** 2 + y ** 2 - 4
 
@@ -35,3 +38,15 @@ def equation2(x):
 
 def equation3(x):
     return 4.45 * x ** 3 + 7.81 * x ** 2 - 9.62 * x - 8.17
+
+
+equation_latex_1 = sp.latex(sp.sympify(equation1(sp.symbols('x'))))
+equation_latex_2 = sp.latex(sp.sympify(equation2(sp.symbols('x'))))
+equation_latex_3 = sp.latex(sp.sympify(equation3(sp.symbols('x'))))
+
+
+equations_latex = {
+    1: equation_latex_1,
+    2: equation_latex_2,
+    3: equation_latex_3,
+}
