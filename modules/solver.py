@@ -28,6 +28,26 @@ def secant_method(equation_func, x0, x1, epsilon, max_iterations=1000):
     return None
 
 
+def simple_iteration_method(equation_func, lower_limit, upper_limit, epsilon, max_iterations=1000):
+    if equation_func(lower_limit) * equation_func(upper_limit) > 0:
+        return "Error: No root found in the given interval."
+
+    x0 = (lower_limit + upper_limit) / 2
+
+    iterations = 0
+    while iterations < max_iterations:
+        iterations += 1
+
+        x1 = equation_func(x0)
+
+        if abs(x1 - x0) < epsilon:
+            return x1, iterations
+
+        x0 = x1
+
+    return "Error: Maximum number of iterations reached", iterations
+
+
 def system_newton_method(f1, f2, x0, y0, epsilon, max_iterations=1000):
     x = x0
     y = y0
@@ -40,7 +60,6 @@ def system_newton_method(f1, f2, x0, y0, epsilon, max_iterations=1000):
         f2_val = f2(x, y)
         jacobian = calculate_jacobian(f1, f2, x, y)
 
-        # Solve J * delta = -F, where delta is the vector of updates for x and y
         delta_x, delta_y = solve_linear_system(jacobian, [-f1_val, -f2_val])
 
         x += delta_x

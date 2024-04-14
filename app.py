@@ -1,9 +1,4 @@
-import os
-import urllib
-
 from flask import Flask, render_template, request, jsonify
-from matplotlib import pyplot as plt
-import numpy as np
 from modules.solution_handler import *
 
 app = Flask(__name__)
@@ -19,11 +14,11 @@ def solve():
     equation_type = request.form.get('equation_type')
 
     if equation_type == 'single':
-        equation_choice = int(request.form['equation'])
-        lower_limit = float(request.form['lower_limit'])
-        upper_limit = float(request.form['upper_limit'])
-        epsilon = float(request.form['epsilon'])
-        method_choice = request.form['method_choice']
+        equation_choice = int(request.form.get('equation'))
+        lower_limit = float(request.form.get('lower_limit'))
+        upper_limit = float(request.form.get('upper_limit'))
+        epsilon = float(request.form.get('epsilon'))
+        method_choice = request.form.get('method_choice')
 
         equation_func = get_equation_function(equation_choice)
 
@@ -35,12 +30,11 @@ def solve():
         }
 
         result = solve_handler_single_equation(equation_choice, lower_limit, upper_limit, epsilon, method_choice)
-
         if result.startswith("Error"):
             return render_template('index.html', equations=equations, error_message=result)
         else:
             error_message = "Select an equation or system to display the graph."
-            return render_template('index.html', equations=equations, error_message=error_message)
+            return render_template('index.html', equations=equations, error_message=error_message, result=result)
 
     elif equation_type == 'system':
         pass

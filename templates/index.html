@@ -12,7 +12,7 @@
 <div class="container">
     <div class="form-container">
         <form action="/solve" method="post" id="equationForm">
-            <input type="hidden" name="equation_type" id="equation_type" value="single">
+            <input type="hidden" name="equation_type" id="equation_type_single" value="single">
             <div id="single_equation_fields">
 
                 <label for="equation">Choose equation to solve:</label>
@@ -29,7 +29,7 @@
                 <select name="method_choice" id="method_choice">
                     <option value="bisection">Bisection Method</option>
                     <option value="secant">Secant Method</option>
-                    <option value="newton">Newton's Method</option>
+                    <option value="simple_iteration">Simple Iterations Method</option>
                 </select>
                 <br>
 
@@ -66,11 +66,12 @@
         </form>
 
         <form action="/solve" method="post" id="system_equations_form">
-
+            <input type="hidden" name="equation_type" id="equation_type_system" value="system">
             <label for="system_equation">Choose system of equations to solve:</label>
             <select name="system_equation" id="system_equation">
-                <option value="system1">System 1: sin(x-y) -xy = -1, y+cos(x-2) =0</option>
-                <option value="system2">System 2: sin(x+y) -1.1x = 0.1, x^2 +y^2 =1</option>
+                <option value="" selected disabled>Choose a system</option>
+                <option value="system1">sin(x-y) - xy = -1, y + cos(x-2) = 0</option>
+                <option value="system2">sin(x+y) - 1.1x = 0.1, x^2 + y^2 = 1</option>
             </select>
             <br>
 

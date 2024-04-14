@@ -7,7 +7,19 @@ def solve_handler_single_equation(equation_choice, lower_limit, upper_limit, eps
 
     if method_choice == 'bisection':
         result = bisection_method(equation_func, lower_limit, upper_limit, epsilon)
-        return f"Root found at x = {result}"
+        return f"Root found at x = {result} "
+    elif method_choice == 'secant':
+        result, iterations = secant_method(equation_func, lower_limit, upper_limit, epsilon)
+        if result is not None:
+            return f"Root found at x = {result} after {iterations} iterations using Secant Method"
+        else:
+            return "Error: Maximum number of iterations reached for Secant Method"
+    elif method_choice == 'simple_iteration':
+        result, iterations = simple_iteration_method(equation_func, lower_limit, upper_limit, epsilon)
+        if result is not None:
+            return f"Root found at x = {result} after {iterations} iterations using Simple Iteration Method"
+        else:
+            return "Error: Maximum number of iterations reached for Simple Iteration Method"
     else:
         return "Error: Invalid method choice for solving."
 
