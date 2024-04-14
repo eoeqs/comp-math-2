@@ -6,20 +6,37 @@ def solve_handler_single_equation(equation_choice, lower_limit, upper_limit, eps
     equation_func = get_equation_function(equation_choice)
 
     if method_choice == 'bisection':
-        result = bisection_method(equation_func, lower_limit, upper_limit, epsilon)
-        return f"Root found at x = {result} "
+        root, iterations, value = bisection_method(equation_func, lower_limit, upper_limit, epsilon)
+        print(root)
+        if isinstance(root, str) and root == "Multiple roots found in the given interval.":
+            return root
+        elif isinstance(root, str) and root == "No root found in the given interval.":
+            return root
+        else:
+            return f"Root found at x = {root} after {iterations} iterations using Bisection Method. F({root}) = {value}."
     elif method_choice == 'secant':
-        result, iterations = secant_method(equation_func, lower_limit, upper_limit, epsilon)
-        if result is not None:
-            return f"Root found at x = {result} after {iterations} iterations using Secant Method"
+        root, iterations, value = secant_method(equation_func, lower_limit, upper_limit, epsilon)
+        print(root)
+        if isinstance(root, str) and root == "Multiple roots found in the given interval.":
+            return root
+        elif isinstance(root, str) and root == "No root found in the given interval.":
+            return root
         else:
-            return "Error: Maximum number of iterations reached for Secant Method"
+            return f"Root found at x = {root} after {iterations} iterations using Secant Method. F({root}) = {value}."
+
     elif method_choice == 'simple_iteration':
-        result, iterations = simple_iteration_method(equation_func, lower_limit, upper_limit, epsilon)
-        if result is not None:
-            return f"Root found at x = {result} after {iterations} iterations using Simple Iteration Method"
+        root, iterations, value = simple_iteration_method(equation_func, lower_limit, upper_limit, epsilon)
+        print(root)
+        if isinstance(root, str) and root == "Multiple roots found in the given interval.":
+            return root
+        elif isinstance(root, str) and root == "No root found in the given interval.":
+            return root
+        elif isinstance(root, str) and root == (
+                "Insufficient convergence condition. Try a different initial guess or function."):
+            return root
         else:
-            return "Error: Maximum number of iterations reached for Simple Iteration Method"
+            return f"Root found at x = {root} after {iterations} iterations using Simple Iteration Method. F({root}) = {value}."
+
     else:
         return "Error: Invalid method choice for solving."
 

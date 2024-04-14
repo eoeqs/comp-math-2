@@ -14,7 +14,6 @@
         <form action="/solve" method="post" id="equationForm">
             <input type="hidden" name="equation_type" id="equation_type_single" value="single">
             <div id="single_equation_fields">
-
                 <label for="equation">Choose equation to solve:</label>
                 <select name="equation" id="equation" onchange="updateDesmos()">
                     <option value="" selected disabled>Choose an equation</option>
@@ -52,16 +51,15 @@
                     <br>
                     <label for="upper_limit">Upper limit of the interval:</label>
                     <input type="number" name="upper_limit" id="upper_limit" step="any">
-                    <br>
-                    <label for="initial_guess">Initial approximation to the root:</label>
-                    <input type="number" name="initial_guess" id="initial_guess" step="any">
-                    <br>
+
                     <label for="epsilon">Calculation error:</label>
                     <input type="number" name="epsilon" id="epsilon" step="any">
                     <br>
                 </div>
             </div>
-
+            <label for="save_to_file">Save result to file:</label>
+            <input type="checkbox" name="save_to_file" id="save_to_file">
+            <br>
             <button type="submit">Solve Single Equation</button>
         </form>
 
@@ -81,19 +79,32 @@
             <label for="system_initial_guess_y">Initial approximation for y:</label>
             <input type="number" name="system_initial_guess_y" id="system_initial_guess_y" step="any">
             <br>
+            <br>
+            <label for="epsilon_system">Calculation error:</label>
+            <input type="number" name="epsilon_system" id="epsilon_system" step="any">
+            <br>
 
             <button type="submit">Solve System of Equations</button>
 
         </form>
-        <div class="error-message" id="error-message"></div>
+
     </div>
     <div class="results-container" id="result-container">
+        <div class="error-message" id="error-message">
+            {% if error_message %}
+            <p>{{ error_message }}</p>
+            {% endif %}
+        </div>
         <h1>Results</h1>
         <p>{{ result }}</p>
         <iframe id="desmos-iframe" src="{{ equation_url }}" width="500px" height="500px"></iframe>
     </div>
 </div>
 <script src="../static/script.js"></script>
-
+<script>
+    function replaceCommaWithDot(element) {
+        element.value = element.value.replace(/,/g, '.');
+    }
+</script>
 </body>
 </html>

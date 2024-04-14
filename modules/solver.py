@@ -1,51 +1,72 @@
+import math
+
+
 def bisection_method(equation_func, lower_limit, upper_limit, epsilon):
-    print(equation_func, lower_limit, upper_limit, epsilon)
+    roots = []
+    iterations = 0
     if equation_func(lower_limit) * equation_func(upper_limit) > 0:
-        return "Error: No root found in the given interval."
+        return "No root found in the given interval.", iterations, None
 
     while abs(upper_limit - lower_limit) > epsilon:
+        iterations += 1
         mid = (lower_limit + upper_limit) / 2
         if equation_func(mid) == 0:
-            return mid
+            roots.append(mid)
+            break
         elif equation_func(mid) * equation_func(lower_limit) < 0:
             upper_limit = mid
         else:
             lower_limit = mid
 
-    return (lower_limit + upper_limit) / 2
+    if roots:
+        return roots, iterations, [equation_func(root) for root in roots]
+    else:
+        return "Multiple roots found in the given interval.", iterations, None
 
 
 def secant_method(equation_func, x0, x1, epsilon, max_iterations=1000):
+    roots = []
     iterations = 0
     while iterations < max_iterations:
         x2 = x1 - (equation_func(x1) * (x1 - x0)) / (equation_func(x1) - equation_func(x0))
-        if abs(x2 - x1) < epsilon:
-            return x2, iterations
-        x0, x1 = x1, x2
         iterations += 1
-
-    print("The maximum number of iterations has been reached.")
-    return None
+        if abs(x2 - x1) < epsilon:
+            roots.append(x2)
+            break
+        x0, x1 = x1, x2
+    if roots:
+        return roots, iterations, [equation_func(root) for root in roots]
+    else:
+        return "Multiple roots found in the given interval.", iterations, None
 
 
 def simple_iteration_method(equation_func, lower_limit, upper_limit, epsilon, max_iterations=1000):
+    roots = []
+    iterations = 0
     if equation_func(lower_limit) * equation_func(upper_limit) > 0:
-        return "Error: No root found in the given interval."
+        return "No root found in the given interval.", None, None
 
     x0 = (lower_limit + upper_limit) / 2
 
-    iterations = 0
     while iterations < max_iterations:
         iterations += 1
-
         x1 = equation_func(x0)
+        derivative_x = abs((equation_func(x1) - equation_func(x0)) / (x1 - x0))
+        q = derivative_x
+
+        if not math.isnan(q) and q >= 1:
+            return "Insufficient convergence condition. Try a different initial guess or function.", None, None
 
         if abs(x1 - x0) < epsilon:
-            return x1, iterations
+            roots.append(x1)
+            break
 
         x0 = x1
 
-    return "Error: Maximum number of iterations reached", iterations
+    if roots:
+        return roots, iterations, [equation_func(root) for root in roots]
+    else:
+        return "Multiple roots found in the given interval.", iterations, None
 
 
 def system_newton_method(f1, f2, x0, y0, epsilon, max_iterations=1000):

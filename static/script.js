@@ -1,3 +1,23 @@
+function toggleInputFields() {
+    var dataSource = document.getElementById('data_source').value;
+    var fileInputFields = document.getElementById('file_input_fields');
+    var keyboardInputFields = document.getElementById('keyboard_input_fields');
+
+    if (dataSource === 'file') {
+        fileInputFields.style.display = 'block';
+        keyboardInputFields.style.display = 'none';
+        document.getElementById('file_input').setAttribute('required', 'required');
+    } else {
+        fileInputFields.style.display = 'none';
+        keyboardInputFields.style.display = 'block';
+        document.getElementById('file_input').removeAttribute('required');
+    }
+}
+
+document.getElementById('data_source').addEventListener('change', toggleInputFields);
+
+toggleInputFields();
+
 window.addEventListener('DOMContentLoaded', (event) => {
     var singleEquationForm = document.getElementById('equationForm');
     var systemEquationsForm = document.getElementById('system_equations_form');
@@ -23,7 +43,6 @@ function updateDesmos() {
     var systemEquationTypeField = document.getElementById("equation_type_system");
     var equationType = singleEquationTypeField.checked ? singleEquationTypeField.value : systemEquationTypeField.value;
     var equationValue = equationSelect.options[equationSelect.selectedIndex].value;
-    console.log("Equation Type:", equationType);
     var desmosIframe = document.getElementById("desmos-iframe");
     var equationUrl = "";
 
@@ -33,11 +52,10 @@ function updateDesmos() {
         } else if (equationValue === "2") {
             equationUrl = "https://www.desmos.com/calculator/4b1gzc0lmt?embed";
         } else if (equationValue === "3") {
-            equationUrl = "https://www.desmos.com/calculator/xgctgmqybd?embed";
+            equationUrl = "https://www.desmos.com/calculator/v414nxrvce?embed";
         }
     } else if (equationType === "system") {
         var systemEquationValue = document.getElementById("system_equation").value;
-        console.log(systemEquationValue)
         if (systemEquationValue === "system1") {
             equationUrl = "https://www.desmos.com/calculator/qzspdezgar?embed";
         } else if (systemEquationValue === "system2") {

@@ -21,22 +21,6 @@ def get_filename(filename=None):
     return filename
 
 
-def get_one_string_from_file(filename):
-    with open(filename, "r") as file:
-        a = file.readline()
-        return a
-
-
-def get_choice(choice=None):
-    if choice is None:
-        choice = input().strip()
-    while not validate_choice(choice):
-        print("Invalid choice. Please enter a valid choice: ")
-        choice = input().strip()
-
-    return choice
-
-
 def input_data_from_keyboard():
     lower_limit = float(input("Enter the lower limit of the interval: "))
     upper_limit = float(input("Enter the upper limit of the interval: "))
@@ -48,8 +32,8 @@ def input_data_from_keyboard():
 def input_data_from_file(filename):
     with open(filename, 'r') as file:
         data = file.readlines()
-    lower_limit, upper_limit, initial_guess, epsilon = map(float, data)
-    return lower_limit, upper_limit, initial_guess, epsilon
+    lower_limit, upper_limit, epsilon = map(float, data)
+    return lower_limit, upper_limit, epsilon
 
 
 def read_data_from_file(filename):
@@ -68,7 +52,6 @@ def get_equation_function(choice):
     return equations.get(choice)
 
 
-# Система 1
 def system1_equation1_func_x(x, y):
     return math.sin(x - y) - x * y + 1
 
@@ -77,7 +60,6 @@ def system1_equation1_func_y(x, y):
     return y + math.cos(x - 2)
 
 
-# Система 2
 def system2_equation1_func_x(x, y):
     return math.sin(x + y) - 1.1 * x - 0.1
 
