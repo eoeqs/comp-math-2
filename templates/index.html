@@ -95,6 +95,11 @@
             <p>{{ error_message }}</p>
             {% endif %}
         </div>
+        <div class="message" id="message">
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
+        </div>
         <h1>Results</h1>
         <p>{{ result }}</p>
         <iframe id="desmos-iframe" src="{{ equation_url }}" width="500px" height="500px"></iframe>

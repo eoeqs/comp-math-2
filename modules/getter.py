@@ -32,7 +32,8 @@ def input_data_from_keyboard():
 def input_data_from_file(filename):
     with open(filename, 'r') as file:
         data = file.readlines()
-    lower_limit, upper_limit, epsilon = map(float, data)
+    lower_limit, upper_limit, initial_guess, epsilon = map(replace_comma_with_dot, data)
+
     return lower_limit, upper_limit, epsilon
 
 

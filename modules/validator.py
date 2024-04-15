@@ -20,3 +20,7 @@ def validate_input_data_system(epsilon):
     if epsilon <= 0:
         return False, "Epsilon should be greater than zero."
     return True, None
+
+
+def replace_comma_with_dot(value):
+    return value.replace(',', '.')

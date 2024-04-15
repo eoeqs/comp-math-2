@@ -15,9 +15,9 @@ def solve():
 
     if equation_type == 'single':
         equation_choice = int(request.form.get('equation'))
-        lower_limit = request.form.get('lower_limit')
-        upper_limit = request.form.get('upper_limit')
-        epsilon = request.form.get('epsilon')
+        lower_limit = replace_comma_with_dot(request.form.get('lower_limit'))
+        upper_limit = replace_comma_with_dot(request.form.get('upper_limit'))
+        epsilon = replace_comma_with_dot(request.form.get('epsilon'))
         method_choice = request.form.get('method_choice')
         data_source = request.form.get('data_source')
         save_to_file = request.form.get('save_to_file')
@@ -53,6 +53,7 @@ def solve():
             if not valid:
                 return render_template('index.html', equations=equations, error_message=message)
         equation_func = get_equation_function(equation_choice)
+        derivative_func = get_derivative_function(equation_choice)
 
         equation_latex = equations[equation_choice]
         desmos_data = {
@@ -67,11 +68,12 @@ def solve():
             with open(filename, 'w') as file:
                 file.write(result)
                 message = f"Result has been saved to {filename}"
+            return render_template('index.html', equations=equations, message=message)
+
         if result.startswith("Error"):
             return render_template('index.html', equations=equations, error_message=result)
         else:
-            error_message = "Select an equation or system to display the graph."
-            return render_template('index.html', equations=equations, error_message=error_message, result=result)
+            return render_template('index.html', equations=equations, result=result)
 
     elif equation_type == 'system':
         system_equation_choice = request.form.get('system_equation')
@@ -102,8 +104,7 @@ def solve():
         if result.startswith("Error"):
             return render_template('index.html', equations=equations, error_message=result)
         else:
-            error_message = "Select an equation or system to display the graph."
-            return render_template('index.html', equations=equations, error_message=error_message, result=result)
+            return render_template('index.html', equations=equations,  result=result)
 
     else:
         return render_template('index.html', equations=equations, error_message="Invalid equation type")
